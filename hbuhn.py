@@ -1,72 +1,57 @@
 import random
-grid = [[3, 0, 6, 5, 0, 8, 4, 0, 0],
-        [5, 2, 0, 0, 0, 0, 0, 0, 0],
-        [0, 8, 7, 0, 0, 0, 0, 3, 1],
-        [0, 0, 3, 0, 1, 0, 0, 8, 0],
-        [9, 0, 0, 8, 6, 3, 0, 0, 5],
-        [0, 5, 0, 0, 9, 0, 6, 0, 0],
-        [1, 3, 0, 0, 0, 0, 2, 5, 0],
-        [0, 0, 0, 0, 0, 0, 0, 7, 4],
-        [0, 0, 5, 2, 0, 6, 3, 0, 0]]
+import numpy as np
 
-
-def Solve_Sudoku(grid):
-
-    count = 0
+def form_grid():
+    """
+    Prepares a SUDOKU
+    """
+    sudoku = []
     for i in range(9):
+        arr = []
         for j in range(9):
-            if grid[i][j] == 0:
-                count += 1
+            arr.append(0)
+        sudoku.append(arr)
 
-    for i in range(9):
-        for j in range(9):
-            if grid[i][j] != 0:
-                continue
-            if count == 0:
-                break
-            k=1;
-            bool = True;
-            while(bool):
-                if isSafe(grid,i,j,k):
-                    bool=False
-                    count=count-1
-                    grid[i][j] = k
-                k = k + 1;
-                if k == 10:
-                    bool = False
-                # n= count-1
-                # while count != n:
-                #     value = random.randint(1,9)
-                #     print(value)
-                #     bool= isSafe(grid,i,j,value)
-                #     print(bool)
-                #     if isSafe(grid,i,j,value):
-                #         count = count - 1
-                #         grid[i][j] = value
+    for i in range(60):
+        row = random.randrange(9)
+        col = random.randrange(9)
+        num = random.randrange(1, 10)
+        if i == 20 or i == 27:
+            print(np.matrix(sudoku))
+            print('row', row, 'col', col)
+            num = input("Enter the number: ")
+            valid = if_is_valid(sudoku, row, col, num)
+            print(valid)
+            if valid:
+                sudoku[row][col] = num
+            else:
+                print('Please enter valid number')
+            print(np.matrix(sudoku))
+        while (not if_is_valid(sudoku, row, col, num) or sudoku[row][col] != 0):  # if taken or not valid reroll
+            row = random.randrange(9)
+            col = random.randrange(9)
+            num = random.randrange(1, 10)
+        sudoku[row][col] = num
+    print("Sol: Final Matrix")
+    print(np.matrix(sudoku))
 
-
-def isSafe(grid, row, col, num):
-
+def if_is_valid(sudoku, row, col, num):
+    valid = True
     for x in range(9):
-        if grid[row][x] == num:
-            return False
+        if (sudoku[x][col] == num):
+            valid = False
 
-    for x in range(9):
-        if grid[x][col] == num:
-            return False
+    for y in range(9):
+        if (sudoku[row][y] == num):
+            valid = False
+    rowsection = row // 3
+    colsection = col // 3
+    for x in range(3):
+        for y in range(3):
+            # check if section is validCheckValid
+            if (int(sudoku[rowsection * 3 + x][colsection * 3 + y]) == int(num)):
+                valid = False
+                return valid
+    return valid
 
-    startRow = row - row % 3
-    startCol = col - col % 3
-    for i in range(3):
-        for j in range(3):
-            if grid[i + startRow][j + startCol] == num:
-                return False
-    return True
-
-
-
-Solve_Sudoku(grid)
-for row in grid:
-    for val in row:
-        print '{:4}'.format(val),
-    print
+form_grid()
