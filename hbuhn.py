@@ -11,8 +11,10 @@ def form_grid():
         for j in range(9):
             arr.append(0)
         sudoku.append(arr)
+        
+        ### Takes random 60 values and keeps other as zero ###
 
-    for i in range(60):
+    for i in range(60): 
         row = random.randrange(9)
         col = random.randrange(9)
         num = random.randrange(1, 10)
@@ -25,7 +27,7 @@ def form_grid():
             if valid:
                 sudoku[row][col] = num
             else:
-                print('Please enter valid number')
+                print('Number entered is not following sudoku rules')
             print(np.matrix(sudoku))
         while (not if_is_valid(sudoku, row, col, num) or sudoku[row][col] != 0):  # if taken or not valid reroll
             row = random.randrange(9)
