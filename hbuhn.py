@@ -26,9 +26,10 @@ def form_grid():
             print(valid)
             if valid:
                 sudoku[row][col] = num
+                print(np.matrix(sudoku))
             else:
                 print('Number entered is not following sudoku rules')
-            print(np.matrix(sudoku))
+            continue
         while (not if_is_valid(sudoku, row, col, num) or sudoku[row][col] != 0):  # if taken or not valid reroll
             row = random.randrange(9)
             col = random.randrange(9)
@@ -50,7 +51,7 @@ def if_is_valid(sudoku, row, col, num):
     colsection = col // 3
     for x in range(3):
         for y in range(3):
-            # check if section is validCheckValid
+            # check if section is if_is_valid
             if (int(sudoku[rowsection * 3 + x][colsection * 3 + y]) == int(num)):
                 valid = False
                 return valid
